@@ -1,4 +1,4 @@
-# react 路由
+# react-router V6 
 
 ## 1、React-router 的三个版本  
 ```
@@ -104,3 +104,47 @@ import {NavLink,Link} from 'react-router-dom';
   border-radius: 20%;
 }
 ```
+
+## 3、感受 react 全局插件 使用方式
+```
+    1、与 vue 不同 ，react 中没有 vue.use 的方法
+    2、使用时，都是遵循 `谁使用，包裹谁` 的原则
+```
+
+## 4、嵌套路由 与 outLet
+```
+    1、在当前 Route 组件下，在嵌套 Route 组件
+    2、使用 outLet 组件 在当前组件 注明 路由出口
+    3、在 当前组件 中 写路由链接 实现点击跳转
+```
+### 4.1 重新配置路由规则
+```js
+// 引入子组件
+import Son1 from './pages/page1Son/Son1';
+import Son2 from './pages/page1Son/Son2';
+
+<Route path='/page1' Component={Page1}>
+    <Route path='son1' element={<Son1></Son1>}></Route>
+    <Route path='son2' element={<Son2></Son2>}></Route>
+</Route>
+```
+### 4.2 使用 outLet 组件
+```js
+import { Outlet } from 'react-router-dom';
+
+<div>
+    <h4>子页面的位置</h4>
+    {/* 用于告诉 路由 子组件显示的位置 */}
+    <Outlet/>
+</div>
+```
+### 4.3 实现点击跳转
+```js
+import {Link} from 'react-router-dom';
+
+<div>
+    <Link to={"/page1/son1"}>son1</Link>
+    <Link to={"/page1/son2"}>son2</Link>
+</div>
+```
+

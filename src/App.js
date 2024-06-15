@@ -1,10 +1,17 @@
 import './App.css';
-import {Routes, Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+// 引入路由组件
 import Page1 from './pages/page1';
 import Page2 from './pages/page2';
 import Page3 from './pages/page3';
 import Page4 from './pages/page4';
-import {NavLink,Link} from 'react-router-dom';
+
+// 引入路由链接
+import { NavLink, Link } from 'react-router-dom';
+
+// 引入子组件
+import Son1 from './pages/page1Son/Son1';
+import Son2 from './pages/page1Son/Son2';
 
 function App() {
   return (
@@ -21,7 +28,10 @@ function App() {
       <Routes>
         {/* path 这里 不要写成 './' */}
         {/* 写法一： Component 里面直接写组件名 */}
-        <Route path='/page1' Component={Page1}></Route>
+        <Route path='/page1' Component={Page1}>
+          <Route path='son1' element={<Son1></Son1>}></Route>
+          <Route path='son2' element={<Son2></Son2>}></Route>
+        </Route>
         {/* 写法二：element 里面写组件 */}
         <Route path='/page2' element={<Page2></Page2>}></Route>
         <Route path='/page3' element={<Page3></Page3>}></Route>
