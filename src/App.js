@@ -20,10 +20,10 @@ function App() {
       <div style={{ display: 'flex', justifyContent:'center'}}>
         {/* 1、NavLink 选中后自带 active 类 添加样式即可使用 */}
         <NavLink to={"/page1"}>Page1</NavLink>
-        <NavLink to={"/page2"}>Page2</NavLink>
+        <NavLink to={"/page2/3"}>Page2</NavLink>
         {/* 2、普通的链接 */}
-        <Link to={"/page3"}>Page3</Link>
-        <Link to={"/page4"}>Page4</Link>
+        <Link to={"/page3?name='张三'&age=18"}>Page3</Link>
+        <Link to={"/page4?name='张三'&age=18"} state={{ name: '赵六', age:'20'}}>Page4</Link>
       </div>
       <Routes>
         {/* path 这里 不要写成 './' */}
@@ -33,8 +33,8 @@ function App() {
           <Route path='son2' element={<Son2></Son2>}></Route>
         </Route>
         {/* 写法二：element 里面写组件 */}
-        <Route path='/page2' element={<Page2></Page2>}></Route>
-        <Route path='/page3' element={<Page3></Page3>}></Route>
+        <Route path='/page2/:id' element={<Page2></Page2>}></Route>
+        <Route path="/page3" element={<Page3></Page3>}></Route>
         {/* path 这里 可以写成 字符串 也可以用{}包裹 */}
         <Route path={'/page4'} element={<Page4></Page4>}></Route>
       </Routes>

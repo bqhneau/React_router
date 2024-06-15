@@ -148,3 +148,117 @@ import {Link} from 'react-router-dom';
 </div>
 ```
 
+## 5、动态路由 与 路由传参
+```
+    1、动态路由就是配置路由时，路由规则的 path 是不固定的，往往携带着一些参数
+    2、react中常见的路由参数有以下几种
+        (1) params 参数 --类似于 post 请求
+            V5  this.props.match.params
+            V6  useParams
+        (2) query 参数 -- 类似于 get 请求
+            V5  this.props.location.search
+            V6  useSearchParams
+        (3) location信息 / state 参数  -- 参数通过 state 属性 传递 
+            V5  this.props.location.state
+            V6  useLocation
+```
+### 5.1 params 参数
+```js
+    1、路由链接(携带参数)：
+        <NavLink to={"/page2/3"}>Page2</NavLink>
+    2、注册路由(声明接收)--加占位符：
+        <Route path='/page2/:id' element={<Page2></Page2>}></Route>
+    3、接收参数：
+        V5 this.props.match.params
+        V6 const parms = useParams()
+```
+```js
+import '../App.css';
+import {useParams} from 'react-router-dom';
+
+function Page2() {
+    // 接收 params 参数
+    const parms = useParams()
+    return (
+        <div className="App">
+            <h3>Page2</h3>
+            <p>携带的params参数：{ parms.id}</p>
+        </div>
+    );
+}
+
+export default Page2;
+```
+
+### 5.2 query 参数
+```js
+    1、路由链接(携带参数)：
+        <Link to={"/page3?name='张三'&age=18"}>Page3</Link>
+    2、注册路由(声明接收)--无需变动：
+        <Route path="/page3" element={<Page3></Page3>}></Route>
+    3、接收参数：
+        V5 this.props.location.search
+        V6 const [query,setQuery] = useSearchParams()
+```
+```js
+import '../App.css';
+import {useSearchParams} from 'react-router-dom'
+
+function Page3() {
+    const [query,setQuery] = useSearchParams()
+    return (
+        <div className="App">
+            <h3>Page3</h3>
+            {/* 1、query.get 获取参数 */}
+            <p>接收到的query参数：name:{query.get('name')} age:{query.get('age')}</p>
+            {/* 2、setQuery 修改参数 是替换 不是追加 */}
+            <button onClick={()=>{setQuery({name:'李四',age:'19'})}}>修改query参数</button>
+        </div>
+    );
+}
+
+export default Page3;
+```
+
+### 5.3 state 参数
+```js
+【V5】
+    1、路由链接(携带参数)：
+        <Link to={{pathname:'/demo/test',state:{name:'tom',age:18}}}>详情</Link>
+    2、注册路由(无需声明，正常注册即可)：
+        <Route path="/demo/test" component={Test}/>
+    3、接收参数：
+        this.props.location.state
+    4、备注：刷新也可以保留住参数
+【V6】
+    1、路由链接(携带参数)：
+        <Link to={"/page4?name='张三'&age=18"} state={{ name: '赵六', age:'20'}}>Page4</Link>
+    2、注册路由(无需声明，正常注册即可)：
+        <Route path={'/page4'} element={<Page4></Page4>}></Route>
+    3、接收参数：
+        const { state, search} = useLocation()
+    4、备注：刷新也可以保留住参数
+```
+```js
+import '../App.css';
+import { useLocation } from 'react-router-dom'
+import query from 'querystring'
+
+function Page4() {
+    const { state, search} = useLocation()
+    return (
+        <div className="App">
+            <h3>Page4</h3>
+            <p>接收的state参数：name:{state.name}age{state.age}</p>
+            <p>
+                也可以从这里取query参数：
+                {/* 这里取到的参数为字符串 需要借助第三方库解析成对象 然后取值 */}
+                name:{query.parse(search).name}
+                age:{query.parse(search).age}
+            </p>
+        </div>
+    );
+}
+
+export default Page4;
+```
