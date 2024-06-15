@@ -1,70 +1,106 @@
-# Getting Started with Create React App
+# react 路由
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1、React-router 的三个版本  
+```
+    1、React-router 服务端使用
+    2、React-router-dom 浏览器端使用
+    3、React-router-native React-native 混合开发使用
+```
 
-## Available Scripts
+## 2、基本使用
+```
+    基本使用步骤如下：
+      1、选择路由模式 history/hash 包裹在想要使用路由的组件外面
+          包裹的好处是灵活，谁用包裹谁
+      2、使用 Routes 组件 --- 路由出口
+      3、使用 Route 组件 --- 写在 Routes 里面(用来包裹具体路由规则)
+      4、使用 NavLink/Link 组件 --- 路由链接
+```
+### 2.1 选择路由模式
+```js
+    // 1、用哪包哪
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+    // 2、用谁包谁
+    <HashRouter>
+      <App />
+    </HashRouter>
+```
 
-In the project directory, you can run:
+### 2.2 定义路由组件
+```
+    在 src 新建文件夹 pages 里面用来放 路由组件
+```
+```js
+import '../App.css';
 
-### `npm start`
+function Page1() {
+    return (
+        <div className="App">
+            <h3>Page1</h3>
+        </div>
+    );
+}
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+export default Page1;
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+### 2.3 路由出口以及配置路由规则
+```js
+import './App.css';
+// 1、引入路由组件 以及 Routes, Route
+import {Routes, Route} from 'react-router-dom';
+import Page1 from './pages/page1';
+import Page2 from './pages/page2';
+import Page3 from './pages/page3';
+import Page4 from './pages/page4';
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+function App() {
+  return (
+    <div className="App">
+      <h2>路由的基本使用</h2>
+      {/* 2、注明路由出口 配置路由规则 */}
+      <Routes>
+        {/* path 这里 不要写成 './' */}
+        {/* 写法一： Component 里面直接写组件名 */}
+        <Route path='/page1' Component={Page1}></Route>
+        {/* 写法二：element 里面写组件 */}
+        <Route path='/page2' element={<Page2></Page2>}></Route>
+        <Route path='/page3' element={<Page3></Page3>}></Route>
+        {/* path 这里 可以写成 字符串 也可以用{}包裹 */}
+        <Route path={'/page4'} element={<Page4></Page4>}></Route>
+      </Routes>
+    </div>
+  );
+}
 
-### `npm run build`
+export default App;
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2.4 声明路由链接
+```
+    1、NavLink 自带 active 类, 使用时需要在样式文件中添加 active 类
+    2、Link 普通的链接
+```
+```js
+// 引入
+import {NavLink,Link} from 'react-router-dom';
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+// 使用 路由链接
+<div style={{ display: 'flex', justifyContent:'center'}}>
+    {/* 1、NavLink 选中后自带 active 类 添加样式即可使用 */}
+    <NavLink to={"/page1"}>Page1</NavLink>
+    <NavLink to={"/page2"}>Page2</NavLink>
+    {/* 2、普通的链接 */}
+    <Link to={"/page3"}>Page3</Link>
+    <Link to={"/page4"}>Page4</Link>
+</div>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+// 添加 active 类
+.active{
+  background-color: #61dafb;
+  border-radius: 20%;
+}
+```
